@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload Múltiplo Programação intermdiária IV - Emilly Crisallys</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap");
+
+      :root {
+        --neon-pink: #ff00ff;
+        --neon-blue: #34c440;
+        --dark-purple: #4b0082;
+        --deep-blue: #0a0a2a;
+        --light-grey-bg: #f0f0f5;
+        --text-color-light: #e0e0e0;
+        --text-color-dark: #333333;
+      }
+
+      body {
+        font-family: "Share Tech Mono", monospace;
+        background: linear-gradient(
+          135deg,
+          var(--deep-blue) 0%,
+          var(--dark-purple) 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        color: var(--text-color-light);
+        overflow: hidden;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(
+            to right,
+            rgba(6, 39, 39, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(26, 68, 68, 0.1) 1px,
+            transparent 1px
+          );
+        background-size: 30px 30px;
+        opacity: 0.3;
+        z-index: 0;
+      }
+
+      .container {
+        background-color: rgba(27, 4, 37, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(55, 204, 83, 0.6),
+          0 0 30px rgba(161, 135, 161, 0.4);
+        max-width: 600px;
+        width: 100%;
+        border: 2px solid var(--neon-blue);
+        position: relative;
+        z-index: 1;
+      }
+
+      h1 {
+        font-family: "Orbitron", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--neon-pink);
+        margin-bottom: 10px;
+        text-align: center;
+        text-shadow: 0 0 8px var(--neon-pink), 0 0 15px var(--neon-pink);
+        letter-spacing: 2px;
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+        color: var(--neon-blue);
+        margin-bottom: 30px;
+        text-align: center;
+        text-shadow: 0 0 5px var(--neon-blue);
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      label {
+        display: block;
+        font-weight: 700;
+        color: var(--neon-blue);
+        margin-bottom: 12px;
+        font-size: 1.1rem;
+        text-shadow: 0 0 3px var(--neon-blue);
+      }
+
+      input[type="file"] {
+        border: 2px dashed rgba(0, 255, 255, 0.5);
+        padding: 20px;
+        border-radius: 10px;
+        width: 100%;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        background-color: rgba(103, 53, 136, 0.3);
+        color: var(--neon-pink);
+        text-shadow: 0 0 2px var(--neon-pink);
+        box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.3);
+      }
+
+      input[type="file"]::file-selector-button {
+        background-image: linear-gradient(
+          to right,
+          var(--neon-blue),
+          var(--neon-pink)
+        );
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+        margin-right: 15px;
+        font-family: "Share Tech Mono", monospace;
+        font-weight: 700;
+      }
+      input[type="file"]::file-selector-button:hover {
+        opacity: 0.9;
+      }
+
+      input[type="file"]:hover,
+      input[type="file"]:focus {
+        outline: none;
+        border-color: var(--neon-pink);
+        background-color: rgba(33, 28, 100, 0.5);
+        box-shadow: 0 0 10px rgba(121, 70, 121, 0.6),
+          inset 0 0 8px rgba(87, 55, 177, 0.4);
+      }
+
+      button {
+        width: 100%;
+        padding: 18px;
+        background-image: linear-gradient(
+          to right,
+          var(--neon-blue),
+          var(--neon-pink)
+        );
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        transition: all 0.3s ease-in-out, opacity 0.2s;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.7),
+          0 0 20px rgba(248, 230, 248, 0.5);
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 1px;
+      }
+
+      button:hover:not(:disabled) {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 0 15px var(--neon-blue), 0 0 25px var(--neon-pink);
+      }
+
+      button:disabled {
+        background-image: linear-gradient(to right, #666, #999);
+        cursor: not-allowed;
+        opacity: 0.6;
+        box-shadow: none;
+        transform: none;
+      }
+
+      .message-box {
+        margin-top: 25px;
+        padding: 15px;
+        border-radius: 10px;
+        font-weight: 600;
+        display: none;
+        text-align: center;
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+      }
+
+      .message-box.success {
+        background-color: rgba(0, 255, 0, 0.2);
+        color: #00ff00;
+        border: 1px solid #00ff00;
+        box-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+      }
+
+      .message-box.error {
+        background-color: rgba(255, 0, 0, 0.2);
+        color: #ff0000;
+        border: 1px solid #ff0000;
+        box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+      }
+
+      .message-box.alert {
+        background-color: rgba(255, 255, 0, 0.2);
+        color: #ffff00;
+        border: 1px solid #ffff00;
+        box-shadow: 0 0 8px rgba(255, 255, 0, 0.6);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>UPLOAD DE 1B DE ARQUIVOS</h1>
+      <p class="subtitle">
+        Iniciando transferência de dados - para BD DE EMILLY
+      </p>
+      
+      <p class="subtitle" id="loginInstruction" style="font-size: 0.9rem; color: #ff8c00; margin-bottom: 20px; display: none;">
+          ⚠️ Acesse o terminal de <a href="/login" style="color: #26f7ff; text-decoration: none; font-weight: bold;">LOGIN</a> para liberar o upload.
+      </p>
+
+      <div class="form-group">
+        <label for="arquivoInput">SELECIONE ARQUIVOS PARA UPLOAD:</label>
+        <input
+          type="file"
+          id="arquivoInput"
+          name="meusArquIVOS"
+          multiple
+          accept="image/png, image/jpeg"
+        />
+      </div>
+
+      <button id="enviarBtn">INICIAR UPLOAD</button>
+      
+      <button id="logoutBtn" style="background-image: linear-gradient(to right, #ff8c00, #ff005d); margin-top: 15px; display: none;">SAIR DO TERMINAL</button>
+
+      <div id="messageBox" class="message-box"></div>
+    </div>
+
+    <script>
+      const enviarBtn = document.getElementById("enviarBtn");
+      const messageBox = document.getElementById("messageBox");
+      const arquivoInput = document.getElementById("arquivoInput");
+      const loginInstruction = document.getElementById("loginInstruction");
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      document.addEventListener('DOMContentLoaded', checkTokenPresence);
+
+      enviarBtn.addEventListener("click", enviarArquivos);
+      logoutBtn.addEventListener("click", logout);
+
+      function logout() {
+          localStorage.removeItem('userToken'); // Remove o token
+          checkTokenPresence(); // Atualiza a UI imediatamente
+          exibirMensagem("SESSÃO ENCERRADA.", "alert");
+      }
+      
+      function exibirMensagem(mensagem, tipo) {
+        messageBox.textContent = mensagem;
+        messageBox.className = `message-box ${tipo}`;
+        messageBox.style.display = "block";
+      }
+
+      function limparMensagem() {
+        messageBox.textContent = "";
+        messageBox.className = "message-box";
+        messageBox.style.display = "none";
+      }
+      
+      // **** FUNÇÃO checkTokenPresence CORRIGIDA ****
+      function checkTokenPresence() {
+          const token = localStorage.getItem('userToken');
+          if (!token) {
+              // Se não há token (deslogado)
+              enviarBtn.disabled = true;
+              enviarBtn.textContent = "LOGIN REQUERIDO";
+              loginInstruction.style.display = "block";
+              logoutBtn.style.display = "none"; // ESCONDE o botão Sair
+
+              if (messageBox.textContent !== "SESSÃO ENCERRADA.") {
+                 exibirMensagem("SESSÃO EXPIRADA OU NÃO INICIADA. FAÇA LOGIN.", "alert");
+              }
+          } else {
+              // Se há token (logado)
+              enviarBtn.disabled = false;
+              enviarBtn.textContent = "INICIAR UPLOAD";
+              loginInstruction.style.display = "none";
+              logoutBtn.style.display = "block"; // MOSTRA o botão Sair
+              
+              // LINHA PROBLEMÁTICA REMOVIDA
+          }
+      }
+
+      async function enviarArquivos() {
+        limparMensagem(); // Limpa mensagens anteriores ANTES de enviar
+        enviarBtn.disabled = true;
+        enviarBtn.textContent = "TRANSFERINDO...";
+
+        try {
+          const arquivos = arquivoInput.files;
+          const token = localStorage.getItem('userToken'); 
+
+          if (!token) {
+              exibirMensagem("ERRO DE AUTENTICAÇÃO: TOKEN AUSENTE. REDIRECIONANDO PARA LOGIN.", "error");
+              checkTokenPresence();
+              setTimeout(() => {
+                  window.location.href = "http://localhost:3000/login";
+              }, 1500);
+              return; 
+          }
+
+          if (arquivos.length === 0) {
+            exibirMensagem(
+              "NENHUM ARQUIVO SELECIONADO. OPERAÇÃO CANCELADA.",
+              "alert"
+            );
+            return;
+          }
+
+          const formData = new FormData();
+          for (const arquivo of arquivos) {
+            formData.append("meusArquivos", arquivo);
+          }
+
+          const response = await fetch("http://localhost:3000/upload", {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`
+            },
+            body: formData,
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            exibirMensagem(
+              `UPLOAD DE ${result.fileCount} ARQUIVO(S) CONCLUÍDO!`,
+              "success"
+            );
+          } else if (response.status === 401 || response.status === 403) {
+            const errorData = await response.json();
+             exibirMensagem(
+              `FALHA NA AUTENTICAÇÃO: ${errorData.message}. REDIRECIONANDO.`,
+              "error"
+            );
+            localStorage.removeItem('userToken');
+            checkTokenPresence();
+             setTimeout(() => {
+                window.location.href = "http://localhost:3000/login";
+            }, 1500);
+
+          } 
+          else {
+            const errorData = await response.json();
+            exibirMensagem(
+              `FALHA NO UPLOAD: ${errorData.message || "ERRO DESCONHECIDO."}`,
+              "error"
+            );
+          }
+        } catch (error) {
+          console.error("ERRO DE CONEXÃO:", error);
+          exibirMensagem(
+            `ERRO DE CONEXÃO COM O SERVIDOR. VERIFIQUE O CONSOLE.`,
+            "error"
+          );
+        } finally {
+          // Reabilita o botão (e o estado da UI) sem limpar a msg de sucesso
+          checkTokenPresence(); 
+        }
+      }
+    </script>
+  </body>
+</html>
