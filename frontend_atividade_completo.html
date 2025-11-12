@@ -253,8 +253,8 @@
       logoutBtn.addEventListener("click", logout);
 
       function logout() {
-          localStorage.removeItem('userToken'); // Remove o token
-          checkTokenPresence(); // Atualiza a UI imediatamente
+          localStorage.removeItem('userToken'); 
+          checkTokenPresence(); 
           exibirMensagem("SESSÃO ENCERRADA.", "alert");
       }
       
@@ -270,15 +270,15 @@
         messageBox.style.display = "none";
       }
       
-      // **** FUNÇÃO checkTokenPresence CORRIGIDA ****
+   
       function checkTokenPresence() {
           const token = localStorage.getItem('userToken');
           if (!token) {
-              // Se não há token (deslogado)
+            
               enviarBtn.disabled = true;
               enviarBtn.textContent = "LOGIN REQUERIDO";
               loginInstruction.style.display = "block";
-              logoutBtn.style.display = "none"; // ESCONDE o botão Sair
+              logoutBtn.style.display = "none"; 
 
               if (messageBox.textContent !== "SESSÃO ENCERRADA.") {
                  exibirMensagem("SESSÃO EXPIRADA OU NÃO INICIADA. FAÇA LOGIN.", "alert");
@@ -288,14 +288,14 @@
               enviarBtn.disabled = false;
               enviarBtn.textContent = "INICIAR UPLOAD";
               loginInstruction.style.display = "none";
-              logoutBtn.style.display = "block"; // MOSTRA o botão Sair
+              logoutBtn.style.display = "block"; 
               
-              // LINHA PROBLEMÁTICA REMOVIDA
+    
           }
       }
 
       async function enviarArquivos() {
-        limparMensagem(); // Limpa mensagens anteriores ANTES de enviar
+        limparMensagem(); 
         enviarBtn.disabled = true;
         enviarBtn.textContent = "TRANSFERINDO...";
 
@@ -366,7 +366,7 @@
             "error"
           );
         } finally {
-          // Reabilita o botão (e o estado da UI) sem limpar a msg de sucesso
+          
           checkTokenPresence(); 
         }
       }
